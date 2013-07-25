@@ -1,0 +1,746 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+	<title>
+		Mail Stats
+	</title>
+
+	<!-- Using local development (Android) (comment out for build.phonegap.com) -->
+	
+	<script src="js_main/cordova-2.9.0.js2"></script>
+
+	
+
+
+	<!-- Using build.phonegap.com -->
+	<script src="phonegap.js"></script>
+	<script src="barcodescanner.js"></script>
+	<script src="PushNotification.js"></script>
+
+	<!--
+	<link rel="stylesheet/less" type="text/css" href="css/less/bootstrap.less">
+	-->
+
+	<!--<script src="https://listen.getemailbox.com/socket.io/socket.io.js" async="true"></script>-->
+	<script src="js/libs/local_socket_io.js" async="true"></script>
+
+	<!-- FilePicker (custom, similar/same to github version by brett) -->
+	<script type="text/javascript" src="js_main/filepicker.0.0.1.js"></script>
+	<!--<script type="text/javascript" src="js_main/filepicker_new.js"></script>-->
+	<!--
+	<script type="text/javascript">
+	(function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document); 
+	</script>
+	-->
+
+
+	<link href="css/bootstrap.css" type="text/css" rel="stylesheet"> <!-- Uncomment below if switching to Less-compiled -->
+	<link href="css/flat-ui.css" type="text/css" rel="stylesheet">
+	<link href="css/mobiscroll.custom-2.4.4.min.css" type="text/css" rel="stylesheet">
+
+	<!-- Extra.css needs to be below less compiled -->
+	
+	<link href="css/extra.css" type="text/css" rel="stylesheet">
+	<link href="css/layout.css" type="text/css" rel="stylesheet">
+	
+	<link href="css/jqcloud.css" type="text/css" rel="stylesheet">
+	<link href="css/fullcalendar.css" type="text/css" rel="stylesheet">
+	<link href="css/nouislider.fox.css" type="text/css" rel="stylesheet">
+	
+
+	<script src="js/app/creds.js"></script>
+
+	<script src="js/libs/jquery-1.7.2.min.js"></script>
+	<script src="js/libs/jquery.ajaxretry.js"></script>
+	<script src="js/libs/jquery-ui-1.8.21.custom.min.js"></script>
+	<script src="js/libs/modernizr.2.6.2.dev.js"></script>
+	<script src="js/libs/json2.js"></script>
+	<script src="js/libs/diff_match_patch_uncompressed.js"></script>
+	<script src="js/libs/dateFormat.js"></script>
+	<script src="js/libs/blowfish.js"></script>
+	<script src="js/libs/sjcl.js"></script>
+	<script src="js/libs/underscore-1.3.3.min.js"></script>
+	<script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
+
+	<script src="js/libs/chart.js"></script>
+
+	<script src="js/libs/backbone-1.0.0.js"></script>
+	<script src="js/libs/backbone.localStorage-min.js"></script>
+	<script src="js/libs/backbone.touch.js"></script>
+	<script src="js/libs/burry.js"></script>
+	<script src="js/libs/backbone.cachingSync.js"></script>
+
+	<script src="js/libs/json-formatter.js"></script>
+	<script src="js/libs/date.js"></script>
+	<script src="js/libs/speedtest.js"></script>
+	<!-- http://momentjs.com/  would be an alternative -->
+
+	<script src="js/bootstrap/bootstrap-modal.js"></script>
+	<script src="js/bootstrap/bootstrap-tab.js"></script>
+
+	<!--<script src="js/libs/jquery.ajaxQueue.js"></script>-->
+	<script src="js/libs/jquery.ajaxManager.js"></script>
+	<script src="js/libs/jquery.base64.js"></script>
+	<script src="js/libs/jquery.embedly-3.1.1.min.js"></script>
+	<script src="js/libs/jquery.tinysort.min.js"></script>
+	<script src="js/libs/sketch.js"></script>
+	
+	<!--<script src="js/libs/jquery.masonry-2.1.05.min.js"></script>-->
+	<!-- <script src="js/libs/html2canvas.js"></script> -->
+	<script src="js/libs/jquery.nouislider.js"></script>
+	<script src="js/libs/jquery.imagesloaded.min.js"></script>
+	<script src="js/libs/jquery.transit.min.js"></script>
+	<script src="js/libs/jquery.scrollTo.min.js"></script>
+	<script src="js/libs/mobiscroll.2.4.4.min.js"></script>
+	<script src="js/libs/fullcalendar.js"></script>
+	<!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+
+	<!-- FancyBox -->
+	<!--<script src="js/libs/jquery.mousewheel-3.0.6.pack.js"></script>
+	<link rel="stylesheet" href="js/libs/fancybox//jquery.fancybox.css?v=2.1.3" type="text/css" media="screen" />
+	<script type="text/javascript" src="js/libs/fancybox/jquery.fancybox.pack.js?v=2.1.3"></script>-->
+
+	<script src="js/libs/jquery.ui.touch.punch.js"></script>
+	
+	<!-- <script src="libs/jquery.toObject.js"></script> -->
+
+	<script src="js/libs/less-1.3.0.min.js"></script>
+
+	<!--<script src="https://static.firebase.com/v0/firebase.js"></script>-->
+
+	<script src="js/app/app.js"></script>
+	<script src="js/app/utils.js"></script>
+	<script src="js/app/plugins.js"></script>
+	<script src="js/app/models.js"></script>
+	<script src="js/app/collections.js"></script>
+	<script src="js/app/views.js"></script>
+	<script src="js/app/routes.js"></script>
+	<script src="js/app/helpers.js"></script>
+
+
+	<script type="text/javascript" async="true">
+		
+		var forge_enabled_if_available = true;
+
+		// Testing Forge usage
+		var useForge = false;
+		if(typeof forge !== 'undefined' && forge_enabled_if_available){
+			useForge = true;
+			// forge.enableDebug();
+			onReady();
+		}
+
+		// phonegap/cordova usage
+		var usePg = false;
+		try {
+			if (!useForge && navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+				usePg = true;
+			}
+		} catch(err){
+
+		}
+
+		// Browser (development)
+		if(!usePg && !useForge){
+			onReady();
+		}
+
+		// listener for phonegap
+		document.addEventListener("deviceready", function(){
+			onReady();
+		}, false);
+
+
+		function onReady(){
+
+			$(document).ready(function(){
+				// alert(1);
+				// alert($(window).width()); // 720
+				// alert($(window).height()); // 1230
+				// alert(0);
+				$('body').css('width',$(window).width() + 'px');
+				$('body').css('height',$(window).height() + 'px');
+				App.init();
+			});
+		}
+
+	</script>
+
+	<!--
+	<script src="https://trigger.io/catalyst/target/target-script-min.js#C8DE3C38-EA7F-4D3F-87D1-49E83F01B185"></script>
+	-->
+
+
+
+	<!-- Templates -->
+
+
+
+	<!-- Body Login -->
+	<script id="t_body_login" type="text/x-handlebars-template">
+
+		<div class="container">
+
+			<div class="intro_window">
+
+				<h1>
+					<span>Mail</span> Stats
+				</h1>
+
+				<br />
+
+				<p class="tagline nodisplay">
+					Push the Envelope
+				</p>
+
+				<p class="login">
+					<button class="btn btn-info btn-large">Login with Emailbox</button>
+				</p>
+
+				<!--
+				<p class="scan_login">
+					<button class="btn btn-info btn-large">QR Code Login</button>
+				</p>
+				-->
+
+				<p style="color:#999;">
+					v {{version}}
+				</p>
+
+			</div>
+
+		</div>
+
+	</script>
+
+	<script id="t_body_unreachable" type="text/x-handlebars-template">
+
+		<div class="container">
+
+			<div class="intro_window">
+
+				<h3>
+					Unable to reach server
+				</h3>
+
+				<br />
+
+				<p class="login">
+					<button class="btn btn-info btn-large retry">Retry</button>
+				</p>
+
+
+			</div>
+
+		</div>
+
+	</script>
+
+
+	<!-- Default Home View -->
+	<script id="t_body" type="text/x-handlebars-template">
+
+
+		<div class="body_container nudge_down">
+
+		</div>
+
+
+	</script>
+
+	<script id="t_stats" type="text/x-handlebars-template">
+
+
+		<div class="header at-top">
+					
+			<div class="header_holder clearfix">
+
+				<div class="base_header_menu clearfix">
+					<div class="left">
+						
+						<h1>Stats</h1>
+
+					</div>
+					<div class="right">
+						<div class="btn-group pull-right">
+							<button data-action="refresh" class="btn">
+								Refresh
+							</button>
+						</div>
+					</div>
+				</div>
+					
+
+			</div>
+			
+		</div>
+
+		<div class="body_container nudge_down">
+
+			<div class="stats_holder">
+
+				<!--
+				<div class="stats_list">
+
+					<div class="dk_container dk_shown dk_theme_default" id="dk_container_options" tabindex="1">
+						<a class="dk_toggle">
+							<span class="dk_label">
+								Choose Stats
+							</span>
+							<span class="select-icon">
+								&#x25BC;
+							</span>
+						</a>
+						<div class="dk_options" style="top: 44px;">
+							<ul class="dk_options_inner">
+								{{#each stat_choices}}
+									<li><a>{{name}}</a></li>
+								{{/each}}
+							</ul>
+						</div>
+					</div>
+
+				</div>
+				-->
+
+				<div class="stats_result">
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</script>
+
+	<script id="t_stats_sent_vs_received" type="text/x-handlebars-template">
+
+		<h2 class="text-center">Last 7 Days</h2>
+
+		<div style="height:360px">
+			<canvas id="week_summary" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+		</div>
+
+		<div class="stats_row_sentreceived text-center clearfix">
+			<div class="left">
+				<h3>Received</h3>
+				<h4>{{week_received}}</h3>
+			</div>
+			<div class="right">
+				<h3>Sent</h3>
+				<h4>{{week_sent}}</h3>
+			</div>
+		</div>
+
+
+		<h2 class="text-center">Day by Day - Sent</h2>
+		<div style="height:360px">
+			<canvas id="day_by_day_sent" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+		</div>
+
+		<br />
+		<br />
+
+		<h2 class="text-center">Day by Day - Received</h2>
+		<div style="height:360px">
+			<canvas id="day_by_day_received" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+		</div>
+
+		<br />
+		<br />
+
+		<h2 class="text-center">Day by Day - Comparison</h2>
+		<div style="height:360px">
+			<canvas id="day_by_day_combined" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+		</div>
+
+	</script>
+
+	<script id="t_stats_loading" type="text/x-handlebars-template">
+		<div class="stats_loading">
+			Loading Stats
+		</div>
+	</script>
+
+	<script id="t_settings" type="text/x-handlebars-template">
+
+		<div class="body_container">
+
+			<div class="settings">
+
+
+				<!-- each -->
+				{{#each_with_index settings}}
+
+					<div class="setting clearfix" data-setting-type="{{key}}">
+
+						<div class="photo">
+							
+						</div>
+
+						<div class="name_and_info no_text_select">
+
+							<div class="display_setting ellipsis">
+								{{text}}
+							</div>
+
+							<div class="display_note ellipsis">
+								{{subtext}}
+							</div>
+
+						</div>
+
+					</div>
+
+				{{/each_with_index}}
+
+
+				<br />
+				<br />
+				<br />
+				<br />
+
+			</div>
+
+		</div>
+
+		<div class="footer">
+					
+			<div class="footer_holder clearfix">
+
+				<div class="base_footer_menu clearfix">
+					<div class="left">
+						<h1>
+							Settings <small>v {{version}}</small>
+						</h1>
+					</div>
+					<div class="right">
+						<div class="btn-toolbar">
+							<div class="btn-group btn-single pull-right">
+								<button data-action="cancel" class="btn btn-default cancel">
+									Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+			</div>
+			
+		</div>
+
+	</script>
+
+	<script id="t_settings_general" type="text/x-handlebars-template">
+
+		<div class="body_container">
+
+			<div class="settings_list">
+
+				{{#each settings}}
+
+					<div class="setting">
+
+
+
+					</div>
+
+				{{/each}}
+
+			</div>
+
+		</div>
+
+		<div class="footer">
+					
+			<div class="footer_holder clearfix">
+
+				<div class="base_footer_menu clearfix">
+					<div class="left">
+						<h1>
+							General Settings
+						</h1>
+					</div>
+					<div class="right">
+						<div class="btn-toolbar">
+							<div class="btn-group btn-single pull-right">
+								<button data-action="cancel" class="btn cancel">
+									Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+			</div>
+			
+		</div>
+
+
+	</script>
+
+	<script id="t_settings_report_bug" type="text/x-handlebars-template">
+
+		<div class="body_container">
+
+			<div class="report_bug">
+
+				<h1>Thank You!</h1>
+
+				<div class="report_subheading">
+					...for taking the time to send us this. Bug reports and comments help us make convomail better, and they are mightily appreciated! 
+				</div>
+
+				<div>
+					<textarea id="reporting_bug" placeholder="man, convomail is totally fubar'd"></textarea>
+				</div>
+
+				<br />
+
+				<button class="btn btn-large btn-success submit_button" data-original-text="Send to Convomail (as an email)">
+					Send to Convomail (as an email)
+				</button>		
+
+			</div>
+
+		</div>
+
+		<div class="footer">
+					
+			<div class="footer_holder clearfix">
+
+				<div class="base_footer_menu clearfix">
+					<div class="left">
+						<h1>
+							Bug Reporting
+						</h1>
+					</div>
+					<div class="right">
+						<div class="btn-toolbar">
+							<div class="btn-group btn-single pull-right">
+								<button data-action="cancel" class="btn cancel">
+									Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+			</div>
+			
+		</div>
+
+
+	</script>
+
+
+	<script id="t_speedtest" type="text/x-handlebars-template">
+
+		<div class="body_container">
+
+			<div class="speedtest">
+
+				<div class="pre_start text-center">
+
+					<br />
+					<br />
+					<br />
+
+					<button id="start" class="btn btn-xlarge">Start Speedtest</button>
+				</div>
+
+				<div class="running text-center" style="display:none;">
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+
+					<h1>
+						running...
+					</h1>
+
+				</div>
+
+				<div class="results text-center" style="display:none;">
+					
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+		<div class="footer">
+					
+			<div class="footer_holder clearfix">
+
+				<div class="base_footer_menu clearfix">
+					<div class="left">
+						<h1>
+							Speed Test
+						</h1>
+					</div>
+					<div class="right">
+						<div class="btn-toolbar">
+							<div class="btn-group btn-single pull-right">
+								<button data-action="cancel" class="btn cancel">
+									Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+			</div>
+			
+		</div>
+
+
+	</script>
+
+	<script id="t_speedtest_results" class="partial" type="text/x-handlebars-template">
+
+		<br />
+		<br />
+		<br />
+		<br />
+		<br />
+
+		<h1>
+			results:
+		</h1>
+
+		<h3>
+			<strong>{{Kbps}}</strong> Kbps
+		</h3>
+		<h3>
+			<strong>{{KBps}}</strong> KBps
+		</h3>
+
+		<br />
+		<br />
+
+		{{#compare KBps ">" 200}}
+
+			<h4>
+				seems like a Broadband connection (fast internet)
+			</h4>
+		{{else}}
+
+			<h4>
+				seems like a Mobile connection (slow internet)
+			</h4>
+		{{/compare}}
+
+		<br />
+		<br />
+
+		<h4>
+			{{connection_type}}
+		</h4>
+
+	</script>
+
+
+	<script id="t_logout" type="text/x-handlebars-template">
+
+		<p>
+			<div id="logout" class="btn btn-danger do_logout">
+				Logout
+			</div>
+		</p>
+
+	</script>
+
+
+	<script id="t_common_loading" type="text/x-handlebars-template" class="partial">
+
+		<div class="loading">
+			&nbsp;
+		</div>
+
+	</script>
+
+
+	<!-- Toast template -->
+	<script id="t_toast" type="text/x-handlebars-template">
+		
+		<div class="toast-bg">
+			{{message}}
+		</div>
+
+	</script>
+
+	<!-- online-status template -->
+	<script id="t_online_status" type="text/x-handlebars-template">
+		<div class="online-status-bg">
+			Connection Interrupted
+		</div>
+	</script>
+
+	<!-- Debug Messages template -->
+	<script id="t_debug_messages" type="text/x-handlebars-template">
+		<div id="debug-messages">
+			{{#compare_size this ">" 0}}
+				<div class="debug-messages-bg">
+					{{#each this}}
+						<div class="debug-message">
+							{{text}} <span class="timeago" title="{{datetime}}"></span>
+						</div>
+					{{/each}}
+				</div>
+			{{/compare_size}}
+		</div>
+	</script>
+	<script id="t_debug_messages_production" type="text/x-handlebars-template">
+		{{#compare_size this ">" 0}}
+			<div id="debug-messages" class="production fade-in">
+				
+				<ul class="spinner">
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				
+			</div>
+		{{/compare_size}}
+	</script>
+
+
+	<!-- unused -->
+	<script id="t_modal_intro" type="text/x-handlebars-template">
+		<div class="modal hide" id="modalIntro">
+			<div class="modal-body">
+				<h3>Welcome</h3>
+			</div>
+		</div>
+	</script>
+
+	<!-- CSS Template -->
+	<script id="t_layout_css" type="text/x-handlebars-template">
+
+		.page_container.hasHeader {
+
+		}
+
+	</script>
+
+
+	<script id="t_embed_github_gist" class="partial" type="text/x-handlebars-template">
+		<script src="{{this}}.js"></script>
+	</script>
+
+</head>
+<body>
+
+</body>
+</html>
