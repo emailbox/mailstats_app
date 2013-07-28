@@ -16,7 +16,7 @@ var App = {
 	Events: 	 _.extend({}, Backbone.Events),
 	Data: 		 {
 		// tmp_contacts: [], // testing contacts
-		version: "0.0.2",
+		version: "0.0.4",
 		InMemory: {},
 		online: true,
 		LoggedIn: false, // Logged into convomail servers
@@ -637,7 +637,7 @@ var App = {
 						// Any entries in the list?
 						if(App.Data.backbutton_functions.length < 1){
 
-							var a = confirm('Close convomail? ');
+							var a = confirm('Close Email Stats? ');
 							if(a){
 								navigator.app.exitApp();
 							}
