@@ -47,6 +47,7 @@
 	
 	<link href="css/extra.css" type="text/css" rel="stylesheet">
 	<link href="css/layout.css" type="text/css" rel="stylesheet">
+	<link href="css/rickshaw.css" type="text/css" rel="stylesheet">
 	
 	<link href="css/jqcloud.css" type="text/css" rel="stylesheet">
 	<link href="css/fullcalendar.css" type="text/css" rel="stylesheet">
@@ -65,7 +66,11 @@
 	<script src="js/libs/blowfish.js"></script>
 	<script src="js/libs/sjcl.js"></script>
 	<script src="js/libs/underscore-1.3.3.min.js"></script>
+	<script src="js/libs/underscore-mixins.js"></script>
 	<script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
+
+	<script src="js/libs/d3.v3.min.js"></script>
+	<script src="js/libs/rickshaw.min.js"></script> 
 
 	<script src="js/libs/chart.js"></script>
 
@@ -159,10 +164,6 @@
 		function onReady(){
 
 			$(document).ready(function(){
-				// alert(1);
-				// alert($(window).width()); // 720
-				// alert($(window).height()); // 1230
-				// alert(0);
 				$('body').css('width',$(window).width() + 'px');
 				$('body').css('height',$(window).height() + 'px');
 				App.init();
@@ -189,14 +190,10 @@
 			<div class="intro_window">
 
 				<h1>
-					<span>Mail</span> Stats
+					<span>Email</span> Stats
 				</h1>
 
 				<br />
-
-				<p class="tagline nodisplay">
-					Push the Envelope
-				</p>
 
 				<p class="login">
 					<button class="btn btn-info btn-large">Login with Emailbox</button>
@@ -283,31 +280,7 @@
 		<div class="body_container nudge_down">
 
 			<div class="stats_holder">
-
-				<!--
-				<div class="stats_list">
-
-					<div class="dk_container dk_shown dk_theme_default" id="dk_container_options" tabindex="1">
-						<a class="dk_toggle">
-							<span class="dk_label">
-								Choose Stats
-							</span>
-							<span class="select-icon">
-								&#x25BC;
-							</span>
-						</a>
-						<div class="dk_options" style="top: 44px;">
-							<ul class="dk_options_inner">
-								{{#each stat_choices}}
-									<li><a>{{name}}</a></li>
-								{{/each}}
-							</ul>
-						</div>
-					</div>
-
-				</div>
-				-->
-
+				
 				<div class="stats_result">
 
 				</div>
@@ -321,43 +294,68 @@
 
 	<script id="t_stats_sent_vs_received" type="text/x-handlebars-template">
 
-		<h2 class="text-center">Last 7 Days</h2>
+		<div class="stats_group">
+			<h2 class="text-center">Last 7 Days</h2>
 
-		<div style="height:360px">
-			<canvas id="week_summary" width="{{winWidth}}" height="360" class="clearfix"></canvas>
-		</div>
-
-		<div class="stats_row_sentreceived text-center clearfix">
-			<div class="left">
-				<h3>Received</h3>
-				<h4>{{week_received}}</h3>
+			<div style="height:360px">
+				<canvas id="week_summary" width="{{winWidth}}" height="360" class="clearfix"></canvas>
 			</div>
-			<div class="right">
-				<h3>Sent</h3>
-				<h4>{{week_sent}}</h3>
+
+			<div class="stats_row_sentreceived text-center clearfix">
+				<div class="left">
+					<h3>Received</h3>
+					<h4>{{week_received}}</h3>
+				</div>
+				<div class="right">
+					<h3>Sent</h3>
+					<h4>{{week_sent}}</h3>
+				</div>
 			</div>
 		</div>
 
+		<div class="stats_group">
+			<h2 class="text-center">Day by Day - Sent</h2>
+			<div style="height:360px">
+				<canvas id="day_by_day_sent" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+			</div>
 
-		<h2 class="text-center">Day by Day - Sent</h2>
-		<div style="height:360px">
-			<canvas id="day_by_day_sent" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+			<br />
+			<br />
+
+			<h2 class="text-center">Day by Day - Received</h2>
+			<div style="height:360px">
+				<canvas id="day_by_day_received" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+			</div>
+
+			<br />
+			<br />
+
+			<h2 class="text-center">Day by Day - Comparison</h2>
+			<div style="height:360px">
+				<canvas id="day_by_day_combined" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+			</div>
+
+			<br />
+			<br />
 		</div>
 
-		<br />
-		<br />
+		<div class="stats_group">
+			<h2 class="text-center">Time-to-Respond Scatterplot</h2>
+			<div id="time_to_respond_scatter" class="rickshaw_graph"></div>
 
-		<h2 class="text-center">Day by Day - Received</h2>
-		<div style="height:360px">
-			<canvas id="day_by_day_received" width="{{winWidth}}" height="360" class="clearfix"></canvas>
-		</div>
+			<div class="stats_row_sentreceived text-center clearfix">
+				<div class="left">
+					<h3>First Responses</h3>
+					<h4>Avg {{avg_first}} min<br />Median {{median_first}} min</h3>
+				</div>
+				<div class="right">
+					<h3>All Others</h3>
+					<h4>Avg {{avg_other}} min<br />Median {{median_other}} min</h3>
+				</div>
+			</div>
 
-		<br />
-		<br />
-
-		<h2 class="text-center">Day by Day - Comparison</h2>
-		<div style="height:360px">
-			<canvas id="day_by_day_combined" width="{{winWidth}}" height="360" class="clearfix"></canvas>
+			<br />
+			<br />
 		</div>
 
 	</script>
@@ -647,6 +645,94 @@
 			{{connection_type}}
 		</h4>
 
+	</script>
+
+
+	<script id="t_startup_tutorial" type="text/x-handlebars-template">
+		<div class="modal-body">
+			{{> t_startup_tutorial_0}}
+		</div>
+	</script>
+
+	<script id="t_startup_tutorial_0" type="text/x-handlebars-template" class="partial">
+		{{> step_current_place}}
+
+		<h2>
+			Welcome to Mail Stats
+		</h2>
+
+		<p class="text-center">
+			Want to quickly learn how to use Mail Stats? 
+		</p>
+
+		<a class="btn btn-success next_step">
+			<i class="fui-checkmark-16"></i> Yes, I want to learn
+		</a>
+
+		<a class="btn btn-default exit_tutorial">
+			<i class="fui-cross-16"></i> No, I get it already
+		</a>
+	</script>
+
+	<script id="t_startup_tutorial_1" type="text/x-handlebars-template">
+		{{> step_current_place}}
+
+		<h3>
+			Mail Stats takes a few minutes to get started
+		</h3>
+
+		<p>
+			Do not fret if your emails take a moment to appear; you can try sending an email to yourself, just to make sure Mail Stats is working. 
+		</p>
+
+		<a class="btn btn-success next_step">
+			<i class="fui-checkmark-16"></i> Next
+		</a>
+
+	</script>
+
+	<script id="t_startup_tutorial_05" type="text/x-handlebars-template">
+		{{> step_current_place}}
+
+		<h3>
+			The Basic Idea
+		</h3>
+
+		<p>
+			Mail Stats is a quick look at some stats on your email usage and patterns. 
+		</p>
+
+		<a class="btn btn-success next_step">
+			<i class="fui-checkmark-16"></i> Next
+		</a>
+
+	</script>
+
+	<script id="t_startup_tutorial_4" type="text/x-handlebars-template">
+		{{> step_current_place}}
+		<h2>
+			All Done!
+		</h2>
+
+		<p>
+			Want to try again? Just go to the main menu and click "Startup Tutorial"
+		</p>
+
+		<p>
+			<strong>Thank You</strong> for trying out Mail Stats! Please let us at Emailbox know if you have any suggestions, or if something is awry!
+		</p>
+
+		<a class="btn btn-default exit_tutorial">
+			<i class="fui-cross-16"></i> Exit Tutorial
+		</a>
+	</script>
+
+	<script id="step_current_place" type="text/x-handlebars-template" class="partial">
+		<div class="current_place_holder">
+			<div class="modal_step_current_place">
+				{{current}} / {{total}}
+			</div>
+		</div>
 	</script>
 
 
